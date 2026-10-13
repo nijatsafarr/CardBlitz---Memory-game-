@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cardBlitz.css">
+    <link rel="shortcut icon" href="cardBlitz.png" type="image/x-icon">
+</head>
+<body>
+  <h1 class="gameTitle">CardBlitz - Memory Game</h1>
+  <div class="time">
+    <span class="timeTxt"></span>
+  <div class="timer">
+    
+    <div class="timeline"></div>
+  </div>
+</div>
+  <div class="gameZone"></div>
+  
+  <script>
+    const game = document.querySelector(".gameZone")
+    const timeTxt = document.querySelector(".timeTxt")
+    const timeline = document.querySelector(".timeline")
+
+    let images = [
+      "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/960px-React-icon.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20220125121207",
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/1920px-CSS3_logo_and_wordmark.svg.png?utm_source=az.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
+      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "https://img.icons8.com/color/1200/python--v2.jpg",
+      "https://cdn-icons-png.flaticon.com/512/5968/5968332.png",
+      "https://dac.digital/wp-content/uploads/2023/05/angular-logo-1.png",
+      "https://cdn.iconscout.com/icon/free/png-256/free-postgresql-icon-svg-download-png-1175120.png" 
+]
+ 
+
+    images = [...images, ...images]
+
+    images.sort(()=>Math.random()-0.5)
+
+    let firstBox = null
+    let secondBox = null
+    let unSelect = false
+
+    function cardBox (img) {
+        let card = document.createElement("div")
+        card.className = "gameBox"
+        
+        card.onclick = function() {
+          if (unSelect) {
+            return
+          }  
+          if (card == firstBox) {
+            return
+          }
+          card.classList.add("flip")
+          card.innerHTML = `<img src="${img}">`
+        
+
+        if(firstBox == null) {
+            firstBox = card
+        } else {
+            secondBox = card
+            unSelect = true
+        
+
+        if (firstBox.innerHTML == secondBox.innerHTML) {
+            firstBox = null
+            secondBox = null
+            unSelect = false
+        } else {
+          setTimeout(()=>{
+          firstBox.innerHTML = "",
+          secondBox.innerHTML = "",
+        
+        firstBox = null,
+    secondBox = null,
+unSelect = false}, 1000)}  
+        }}
+        game.appendChild(card)}    
+        images.forEach((img)=>{cardBox(img)}
+
+    )
+    
+    let time = 60
+    let timer = setInterval(() => {
+     time--
+     
+     timeTxt.textContent = "Time: 00:" + "" + time
+     timeline.style.width = (time / 60 * 100) + "%"
+
+     if (time == 0) {
+      clearInterval(timer)
+      alert("The game is over!")
+      return
+     }
+    }, 1000);
+  </script>
+</body>
+</html>
